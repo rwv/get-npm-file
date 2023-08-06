@@ -1,5 +1,13 @@
 import { globalMirrors, CNMirrors } from './mirrors'
 
+export function getCacheURL (
+  name: string,
+  version: string | undefined,
+  path: string
+): string {
+  return globalMirrors[0] + getSuffix(name, version, path)
+}
+
 export function getGlobalURLs (
   name: string,
   version: string | undefined,

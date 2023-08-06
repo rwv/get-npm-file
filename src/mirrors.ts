@@ -1,6 +1,8 @@
-export const globalMirrors = ['https://cdn.jsdelivr.net/npm'] as const
+export type Mirror = string | ((name: string, version: string | undefined, path: string) => string)
 
-export const CNMirrors = [
+export const globalMirrors: Mirror[] = ['https://cdn.jsdelivr.net/npm']
+
+export const CNMirrors: Mirror[] = [
   'https://npm.elemecdn.com',
   'https://jsd.cdn.zzko.cn/npm',
   'https://jsd.onmicrosoft.cn/npm',

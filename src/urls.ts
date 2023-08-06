@@ -1,11 +1,11 @@
-import { globalMirrors, CNMirrors } from './mirrors'
+import { globalMirrors, CNMirrors, type Mirror } from './mirrors'
 
 export function getCacheURL (
   name: string,
   version: string | undefined,
   path: string
 ): string {
-  return globalMirrors[0] + getSuffix(name, version, path)
+  return getURL(globalMirrors[0], name, version, path)
 }
 
 export function getGlobalURLs (
@@ -13,7 +13,7 @@ export function getGlobalURLs (
   version: string | undefined,
   path: string
 ): string[] {
-  return globalMirrors.map((host) => host + getSuffix(name, version, path))
+  return globalMirrors.map((mirror) => getURL(mirror, name, version, path))
 }
 
 export function getCNURLs (
@@ -21,7 +21,20 @@ export function getCNURLs (
   version: string | undefined,
   path: string
 ): string[] {
-  return CNMirrors.map((host) => host + getSuffix(name, version, path))
+  return CNMirrors.map((mirror) => getURL(mirror, name, version, path))
+}
+
+function getURL (
+  mirror: Mirror,
+  name: string,
+  version: string | undefined,
+  path: string
+): string {
+  if (typeof mirror === 'function') {
+    return mirror(name, version, path)
+  } else {
+    return mirror + getSuffix(name, version, path)
+  }
 }
 
 function getSuffix (

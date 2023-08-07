@@ -11,7 +11,11 @@ export async function getNPMFile (
     china?: boolean | undefined
     fetchOptions?: RequestInit
   }
-): Promise<Blob> {
+): Promise<{
+    blob: Blob
+    url: string
+    response: Response
+  }> {
   // look up in cache
   if (options?.cache !== false) {
     try {
@@ -19,7 +23,8 @@ export async function getNPMFile (
       const url = getCacheURL(name, version, path)
       const cachedResponse = await cache.match(url)
       if (cachedResponse != null) {
-        return await cachedResponse.blob()
+        const blob = await cachedResponse.blob()
+        return { blob, url: cachedResponse.url, response: cachedResponse }
       }
     } catch (e) {
       console.error(e)
@@ -50,9 +55,11 @@ export async function getNPMFile (
     mode: 'cors'
   } as const
 
-  const blobPromises = urls.map(async (url) => await fetchBlob(url, fetchOptions))
+  const blobPromises = urls.map(
+    async (url) => await fetchBlob(url, fetchOptions)
+  )
 
-  const blob = await Promise.any(blobPromises)
+  const { blob, url, response } = await Promise.any(blobPromises)
 
   controller.abort()
 
@@ -60,21 +67,36 @@ export async function getNPMFile (
     try {
       const cache = await caches.open(cacheName)
       const url = getCacheURL(name, version, path)
-      void cache.put(url, new Response(blob))
+
+      void cache.put(
+        url,
+        new Response(blob, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers
+        })
+      )
     } catch (e) {
       console.error(e)
     }
   }
 
-  return blob
+  return { blob, url, response }
 }
 
-async function fetchBlob (url: RequestInfo | URL, options?: RequestInit): Promise<Blob> {
+async function fetchBlob (
+  url: RequestInfo | URL,
+  options?: RequestInit
+): Promise<{
+    blob: Blob
+    url: string
+    response: Response
+  }> {
   const response = await fetch(url, options)
   if (!response.ok) {
     throw new Error('fetch failed')
   }
 
   const blob = await response.blob()
-  return blob
+  return { blob, url: response.url, response }
 }

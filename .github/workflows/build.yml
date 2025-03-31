@@ -40,5 +40,6 @@ jobs:
 
       - name: Publish to NPM
         run: pnpm publish --no-git-checks
+        if: github.event_name == 'release'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

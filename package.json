@@ -1,6 +1,6 @@
 {
   "name": "get-npm-file",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Get npm file from various CDN.",
   "main": "dist/index.js",
   "module": "dist/index.js",

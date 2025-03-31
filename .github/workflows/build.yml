@@ -44,6 +44,10 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    environment:
+      name: npm-registry
+      url: https://www.npmjs.com/package/get-npm-file
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -1,6 +1,6 @@
 {
   "name": "get-npm-file",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Get npm file from various CDN.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -17,7 +17,11 @@
   "repository": "github:rwv/get-npm-file",
   "homepage": "https://github.com/rwv/get-npm-file",
   "bugs": "https://github.com/rwv/get-npm-file/issues",
-  "keywords": ["npm", "cdn", "jsdelivr"],
+  "keywords": [
+    "npm",
+    "cdn",
+    "jsdelivr"
+  ],
   "author": "rwv",
   "license": "MIT",
   "devDependencies": {

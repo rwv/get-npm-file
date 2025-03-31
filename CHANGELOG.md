@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.6](https://github.com/rwv/get-npm-file/compare/v2.0.5...v2.0.6) (2025-03-31)
+
+
+### Bug Fixes
+
+* update package.json with repository details, author, and keywords ([741bb10](https://github.com/rwv/get-npm-file/commit/741bb10a010f086e018d052b82f08b639efd28ae))
+
 ## [2.0.5](https://github.com/rwv/get-npm-file/compare/v2.0.4...v2.0.5) (2025-03-31)
 
 
